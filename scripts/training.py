@@ -81,8 +81,8 @@ def load_config(path_config, default_config):
 
 
 def load_training_lines(path_annot, valid_split):
-    with open(path_annot) as f:
-        lines = f.readlines()
+    with open(path_annot) as fp:
+        lines = fp.readlines()
 
     np.random.seed(10101)
     np.random.shuffle(lines)

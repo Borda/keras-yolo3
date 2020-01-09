@@ -51,7 +51,7 @@ def convert_annotation(path_csv, classes=None):
 
 
 def _main(path_dataset, path_output, classes=None):
-    name_dataset = os.path.basename(os.path.dirname(path_dataset))
+    name_dataset = os.path.basename(path_dataset)
     list_csv = sorted(glob.glob(os.path.join(path_dataset, '*.csv')))
 
     path_out_list = os.path.join(path_output, '%s_dataset.txt' % name_dataset)
