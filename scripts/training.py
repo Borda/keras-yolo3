@@ -20,8 +20,8 @@ from functools import partial
 
 import yaml
 import numpy as np
-from keras.optimizers import Adam
-from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 
 sys.path += [os.path.abspath('.'), os.path.abspath('..')]
 from keras_yolo3.model import create_model, create_model_tiny
@@ -136,7 +136,7 @@ def _main(path_dataset, path_anchors, path_weights=None, path_output='.',
     model = _create_model(config['image-size'], anchors, nb_classes, freeze_body=2,
                           weights_path=path_weights, nb_gpu=nb_gpu)
     # if create blank use image-size, else take loaded from model file
-    config['image-size'] = model._input_layers[0].input_shape[1:3]
+    config['image-size'] = model._input_layers[0].input_shape[0][1:3]
 
     tb_logging = TensorBoard(log_dir=path_output)
     checkpoint = ModelCheckpoint(os.path.join(path_output, NAME_CHECKPOINT),
@@ -173,7 +173,7 @@ def _main(path_dataset, path_anchors, path_weights=None, path_output='.',
         logging.info('Train on %i samples, val on %i samples, with batch size %i.',
                      num_train, num_val, config['batch-size']['head'])
         t_start = time.time()
-        model.fit_generator(
+        model.fit(
             _data_generator(lines_train, batch_size=config['batch-size']['head']),
             steps_per_epoch=max(1, num_train // config['batch-size']['head']),
             validation_data=_data_generator(lines_valid, augment=False),

@@ -1,14 +1,13 @@
 numpy
 scipy
-matplotlib<3.0.0  # dropped support for py3.5 and lower
+matplotlib  # dropped support for py3.5 and lower
 Pillow
 # keras!=2.2.3,2.2.4 # crash multi GPU training, see https://github.com/keras-team/keras/issues/11348
 # keras!=2.2.5 # missing control_flow_ops in keras.backend
-keras>=2.2.0, <2.2.5
 pydot
 pydot-ng
 graphviz
-tensorflow>=1.4.0, <2.0.0  # breaking compatibility
+tensorflow>=2.0.0
 pandas
 opencv-python
 tqdm

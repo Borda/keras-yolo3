@@ -16,8 +16,8 @@ import logging
 from functools import partial
 
 import numpy as np
-from keras.optimizers import Adam
-from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 
 sys.path += [os.path.abspath('.'), os.path.abspath('..')]
 from keras_yolo3.model import create_model_bottleneck

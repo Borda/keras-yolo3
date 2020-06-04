@@ -597,11 +597,11 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     true_boxes[..., 2:4] = boxes_wh / input_shape[::-1]
 
     nb_boxes = true_boxes.shape[0]
-    grid_shapes = [input_shape // {0: 32, 1: 16, 2: 8}[l]
-                   for l in range(num_layers)]
-    y_true = [np.zeros((nb_boxes, grid_shapes[l][0], grid_shapes[l][1],
-                        len(anchor_mask[l]), 5 + num_classes),
-                       dtype='float32') for l in range(num_layers)]
+    grid_shapes = [input_shape // {0: 32, 1: 16, 2: 8}[layer_idx]
+                   for layer_idx in range(num_layers)]
+    y_true = [np.zeros((nb_boxes, grid_shapes[layer_idx][0], grid_shapes[layer_idx][1],
+                        len(anchor_mask[layer_idx]), 5 + num_classes),
+                       dtype='float32') for layer_idx in range(num_layers)]
 
     # Expand dim to apply broadcasting.
     anchors = np.expand_dims(anchors, 0)
@@ -631,16 +631,16 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
         best_anchor = np.argmax(iou, axis=-1)
 
         for t, n in enumerate(best_anchor):
-            for l in range(num_layers):
-                if n not in anchor_mask[l]:
+            for layer_idx in range(num_layers):
+                if n not in anchor_mask[layer_idx]:
                     continue
-                i = np.floor(true_boxes[bi, t, 0] * grid_shapes[l][1]).astype('int32')
-                j = np.floor(true_boxes[bi, t, 1] * grid_shapes[l][0]).astype('int32')
-                k = anchor_mask[l].index(n)
+                i = np.floor(true_boxes[bi, t, 0] * grid_shapes[layer_idx][1]).astype('int32')
+                j = np.floor(true_boxes[bi, t, 1] * grid_shapes[layer_idx][0]).astype('int32')
+                k = anchor_mask[layer_idx].index(n)
                 c = true_boxes[bi, t, 4].astype('int32')
-                y_true[l][bi, j, i, k, 0:4] = true_boxes[bi, t, 0:4]
-                y_true[l][bi, j, i, k, 4] = 1
-                y_true[l][bi, j, i, k, 5 + c] = 1
+                y_true[layer_idx][bi, j, i, k, 0:4] = true_boxes[bi, t, 0:4]
+                y_true[layer_idx][bi, j, i, k, 4] = 1
+                y_true[layer_idx][bi, j, i, k, 5 + c] = 1
 
     return y_true
 

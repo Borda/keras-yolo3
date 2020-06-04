@@ -31,14 +31,14 @@ from collections import defaultdict
 
 import tqdm
 import numpy as np
-import keras.backend as K
-from keras.layers import (Conv2D, Input, ZeroPadding2D, Add,
-                          UpSampling2D, MaxPooling2D, Concatenate)
-from keras.layers.advanced_activations import LeakyReLU
-from keras.layers.normalization import BatchNormalization
-from keras.models import Model
-from keras.regularizers import l2
-from keras.utils.vis_utils import plot_model as plot
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import (Conv2D, Input, ZeroPadding2D, Add,
+                                     UpSampling2D, MaxPooling2D, Concatenate)
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.models import Model
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.utils import plot_model as plot
 
 sys.path += [os.path.abspath('.'), os.path.abspath('..')]
 from keras_yolo3.utils import update_path
